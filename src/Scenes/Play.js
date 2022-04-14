@@ -97,6 +97,11 @@ class Play extends Phaser.Scene{
             this.scoreRight = this.add.text(game.config.width - borderUISize - borderPadding - score2Config.fixedWidth, borderUISize + borderPadding*2, this.p2Score.s, score2Config);
         }
 
+        //start music
+        music = this.sound.add('playing');
+        music.setLoop(true);
+        music.play();
+
         //Game Over flag
         this.gameOver  = false;
         // 60-second play clock
@@ -109,11 +114,6 @@ class Play extends Phaser.Scene{
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
-
-        //start music
-        music = this.sound.add('playing');
-        music.setLoop(true);
-        music.play();
     }
 
     update() {
@@ -123,6 +123,7 @@ class Play extends Phaser.Scene{
         }
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             this.scene.start("menuScene");
+            music.stop();
         }
 
         this.starfield.tilePositionX -= 4;

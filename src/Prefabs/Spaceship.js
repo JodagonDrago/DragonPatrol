@@ -4,7 +4,8 @@ class Spaceship extends Phaser.GameObjects.Sprite{
         super(scene, x, y, texture, frame);
         scene.add.existing(this); //add to existing scene
         this.points = pointValue; //store pointValue
-        this.moveSpeed = game.settings.spaceshipSpeed; //pixels per frame
+        this.moveSpeed = 3; //pixels per frame
+        this.ticker = 0;
     }
 
     update(){
@@ -13,6 +14,20 @@ class Spaceship extends Phaser.GameObjects.Sprite{
         //wrap around from left to right
         if(this.x <= 0 - this.width){
             this.x = game.config.width;
+        }
+
+        //make ship randomly accelerate and decelerate
+        this.ticker += 1;
+
+        if (this.ticker == 50){
+            this.ticker = 0;
+            this.moveSpeed += Phaser.Math.Between(-1, 1);
+            if(this.moveSpeed == 8){
+                this.moveSpeed = 7;
+            }
+            if(this.moveSpeed == 0){
+                this.moveSpeed = 1;
+            }
         }
     }
 
